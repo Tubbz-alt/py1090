@@ -115,6 +115,45 @@ class FlightCollectionEntry:
 		return None
 
 	@property
+	def sqwk(self):
+		"""Finds the last Squawk of the flight (by iterating backwards through collected messages).
+
+		Returns:
+			float: the last squawk if known, None otherwise.
+
+			"""
+		for message in reversed(self.messages):
+			if message.squawk:
+				return message.squawk
+		return None
+
+	@property
+	def flight_id(self):
+		"""Finds the id of the flight (by iterating backwards through collected messages).
+
+		Returns:
+			float: the flight id if known, None otherwise.
+
+			"""
+		for message in reversed(self.messages):
+			if message.flight_id:
+				return message.flight_id
+		return None
+
+	@property
+	def callsign(self):
+		"""Finds the callsign of the flight (by iterating backwards through collected messages).
+
+		Returns:
+			float: the callsign if known, None otherwise.
+
+			"""
+		for message in reversed(self.messages):
+			if message.callsign:
+				return message.callsign
+		return None
+
+	@property
 	def path(self):
 		"""Reconstructs the flight path. Yields it as an iterator.
 

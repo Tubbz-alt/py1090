@@ -4,7 +4,7 @@ sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
 import py1090 
 		
 def record_positions_to_file(filename):
-	with py1090.Connection() as connection, open(filename, 'a') as file:
+	with py1090.Connection('dvbtadsb') as connection, open(filename, 'a') as file:
 		lines = 0
 		for line in connection:
 			message = py1090.Message.from_string(line)

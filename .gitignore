@@ -9,3 +9,8 @@ myfiles
 *.sublime-project
 *.sublime-workspace
 
+/bin/
+/include/
+/lib/
+/example_recording.txt
+/pip-selfcheck.json
