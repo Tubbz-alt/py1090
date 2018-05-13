@@ -101,6 +101,28 @@ class FlightCollectionEntry:
 				return (message.latitude, message.longitude)
 		return None, None
 
+		if self.hexident is None:
+			self.hexident = message.hexident
+		else:
+			if self.hexident != message.hexident:
+				raise ValueError("Added message of different hexident.")
+
+		if message.message_type == 'MSG':
+			self.messages.append(message)
+
+	@property
+	def last_position(self):
+		"""Finds the last known position of the flight (by iterating backwards through collected messages).
+
+		Returns:
+			tuple: a tuple of :py:class:`float` if the position was ever recorded, (None, None) otherwise.
+
+		"""
+		for message in reversed(self.messages):
+			if message.latitude and message.longitude:
+				return (message.latitude, message.longitude)
+		return None, None
+
 	@property
 	def last_altitude(self):
 		"""Finds the last known altitude of the flight (by iterating backwards through collected messages).
@@ -154,6 +176,88 @@ class FlightCollectionEntry:
 		return None
 
 	@property
+	def aircraft_id(self):
+		"""Finds the Database Aircraft record number of the flight (by iterating backwards through collected messages).
+
+		Returns:
+			float: the Database Aircraft record number if known, None otherwise.
+
+			"""
+		for message in reversed(self.messages):
+			if message.aircraft_id:
+				return message.aircraft_id
+		return None
+
+	@property
+	def last_generation_time(self):
+		"""Finds the Generation time of the last message for this flight (by iterating backwards through collected messages).
+
+		Returns:
+			float: the Generation time of the last message if known, None otherwise.
+
+			"""
+		for message in reversed(self.messages):
+			if message.generation_time:
+				return message.generation_time
+		return None
+
+	@property
+	def last_record_time(self):
+		"""Finds the record time of the last message for this flight (by iterating backwards through collected messages).
+
+		Returns:
+			float: the record time of the last message if known, None otherwise.
+
+			"""
+		for message in reversed(self.messages):
+			if message.record_time:
+				return message.record_time
+		return None
+
+			if message.generation_time:
+				return message.generation_time
+		return None
+
+	@property
+	def last_ground_speed(self):
+		"""Finds last recorded Speed over ground (not indicated airspeed) in knots for this flight (by iterating backwards through collected messages).
+
+		Returns:
+			float: the last recorded Speed over ground (not indicated airspeed) in knots if known, None otherwise.
+
+			"""
+		for message in reversed(self.messages):
+			if message.ground_speed:
+				return message.ground_speed
+		return None
+
+	@property
+	def last_track(self):
+		"""Finds the last Track of aircraft (not heading), in degrees for this flight (by iterating backwards through collected messages).
+
+		Returns:
+			float: the last Track of aircraft (not heading), in degrees if known, None otherwise.
+
+			"""
+		for message in reversed(self.messages):
+			if message.track:
+				return message.track
+		return None
+
+	@property
+	def last_vertical_rate(self):
+		"""Finds the last Vertical velocity in ft/s for this flight (by iterating backwards through collected messages).
+
+		Returns:
+			float: the last Vertical velocity in ft/s if known, None otherwise.
+
+			"""
+		for message in reversed(self.messages):
+			if message.vertical_rate:
+				return message.vertical_rate
+		return None
+
+	@property
 	def path(self):
 		"""Reconstructs the flight path. Yields it as an iterator.
 
@@ -169,4 +273,3 @@ class FlightCollectionEntry:
 
 	def __iter__(self):
 		return iter(self.messages)
-
