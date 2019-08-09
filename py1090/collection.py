@@ -214,8 +214,8 @@ class FlightCollectionEntry:
 				return message.record_time
 		return None
 
-			if message.generation_time:
-				return message.generation_time
+		if message.generation_time:
+			return message.generation_time
 		return None
 
 	@property
